@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pawsome Pets – Care & Adoption</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* --- RESET & VARIABLES --- */
+:root {
+    --primary: #ff6b8a;
+    --primary-hover: #ff4757;
+    --secondary: #a8e6cf;
+    --dark: #2c3e50;
+    --light: #f8f9fa;
+    --text-gray: #6c757d;
+    --shadow: 0 10px 30px rgba(0,0,0,0.08);
+    --radius: 20px;
+    --transition: all 0.3s ease;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--light);
+    color: var(--dark);
+    overflow-x: hidden;
+}
+
+/* --- NAVBAR --- */
+.navbar {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    transition: var(--transition);
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--dark);
+    display: flex; align-items: center; gap: 0.5rem;
+}
+
+.nav-menu {
+    list-style: none; display: flex; gap: 2rem;
+}
+
+.nav-menu a {
+    text-decoration: none; color: var(--dark);
+    font-weight: 500; position: relative;
+    transition: var(--transition);
+}
+
+.nav-menu a:hover, .nav-menu a.active { color: var(--primary); }
+
+/* Mobile Menu Toggle */
+.hamburger {
+    display: none; cursor: pointer; font-size: 1.5rem;
+}
+
+/* --- HERO --- */
+.hero {
+    margin-top: 80px;
+    min-height: 80vh;
+    /* Soft pastel gradient */
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    color: white; text-align: center; padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative circles */
+.hero::before {
+    content: ''; position: absolute;
+    width: 300px; height: 300px; background: rgba(255,255,255,0.2);
+    border-radius: 50%; top: -50px; left: -50px;
+}
+.hero::after {
+    content: ''; position: absolute;
+    width: 200px; height: 200px; background: rgba(255,255,255,0.2);
+    border-radius: 50%; bottom: 50px; right: -20px;
+}
+
+.hero h1 {
+    font-size: 3.5rem; font-family: 'Playfair Display', serif;
+    margin-bottom: 1rem; text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1;
+}
+
+.hero p {
+    font-size: 1.2rem; max-width: 600px; z-index: 1;
+    margin-bottom: 2rem; opacity: 0.9;
+}
+
+.hero-btn {
+    padding: 1rem 2.5rem; border-radius: 50px;
+    background: white; color: var(--primary);
+    font-weight: 700; text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: var(--transition); z-index: 1;
+}
+.hero-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+/* --- SECTIONS COMMON --- */
+.section { padding: 5rem 5%; max-width: 1300px; margin: auto; }
+.section-title {
+    font-size: 2.8rem; text-align: center; margin-bottom: 3rem;
+    font-family: 'Playfair Display', serif; color: var(--dark);
+    position: relative;
+}
+.section-title::after {
+    content: ''; display: block; width: 80px; height: 4px;
+    background: var(--primary); margin: 10px auto 0; border-radius: 2px;
+}
+
+/* --- ABOUT --- */
+.about-box {
+    background: white; padding: 3rem; border-radius: var(--radius);
+    box-shadow: var(--shadow); text-align: center; line-height: 1.8; color: var(--text-gray);
+}
+
+/* --- VIDEOS --- */
+.video-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;
+}
+
+.video-card {
+    background: white; border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow); cursor: pointer; transition: var(--transition);
+    position: relative;
+}
+
+.video-card:hover { transform: translateY(-8px); }
+
+.video-thumb {
+    height: 200px;
+    background-size: cover; background-position: center;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+}
+/* Overlay for video play button */
+.video-thumb::before {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(0,0,0,0.3); transition: var(--transition);
+}
+.video-card:hover .video-thumb::before { background: rgba(0,0,0,0.1); }
+
+.play-icon {
+    font-size: 3rem; color: white;
+    z-index: 2; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+    transition: var(--transition);
+}
+.video-card:hover .play-icon { transform: scale(1.1); color: var(--primary); }
+
+.video-content { padding: 1.5rem; }
+.video-content h3 { margin-bottom: 0.5rem; }
+.video-content p { color: var(--text-gray); font-size: 0.9rem; }
+
+/* --- CLINICS --- */
+.clinic-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
+}
+.clinic-card {
+    background: white; padding: 2rem; border-radius: var(--radius);
+    box-shadow: var(--shadow); border-left: 5px solid var(--primary);
+}
+.clinic-card h3 { margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+.clinic-card p { color: var(--text-gray); margin-bottom: 1.5rem; }
+.clinic-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+.clinic-links a {
+    text-decoration: none; padding: 0.6rem 1.2rem; border-radius: 10px;
+    font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;
+    transition: var(--transition);
+}
+.call { background: #e9ecef; color: var(--dark); }
+.call:hover { background: #dde2e6; }
+.emergency { background: #dc3545; color: white; }
+.emergency:hover { background: #c82333; }
+
+/* --- ADOPTION (Interactive Tool) --- */
+.search-container {
+    max-width: 600px; margin: 0 auto 3rem auto; position: relative;
+}
+.search-input {
+    width: 100%; padding: 1rem 1.5rem; padding-left: 3rem;
+    border: 2px solid #e9ecef; border-radius: 50px;
+    font-size: 1rem; outline: none; transition: var(--transition);
+    font-family: 'Poppins', sans-serif;
+}
+.search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(255, 107, 138, 0.1); }
+.search-icon {
+    position: absolute; left: 1.2rem; top: 50%; transform: translateY(-50%);
+    color: var(--text-gray);
+}
+
+.adoption-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem;
+}
+
+.pet-card {
+    background: white; border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow); transition: var(--transition);
+    display: flex; flex-direction: column;
+}
+
+.pet-card:hover { transform: translateY(-5px); }
+
+.pet-img-wrapper {
+    position: relative; height: 220px; overflow: hidden;
+}
+.pet-card img {
+    width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;
+}
+.pet-card:hover img { transform: scale(1.05); }
+
+.pet-info { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+.pet-badge {
+    display: inline-block; background: #e3f2fd; color: #0d47a1;
+    padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem;
+    margin-bottom: 0.5rem; width: fit-content;
+}
+.pet-card h4 { font-size: 1.2rem; margin-bottom: 0.2rem; }
+.pet-card p { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 1rem; }
+
+.btn {
+    margin-top: auto; width: 100%; padding: 0.9rem; border: none; border-radius: 50px;
+    background: var(--primary); color: white; font-weight: 600; cursor: pointer;
+    transition: var(--transition); display: flex; justify-content: center; align-items: center; gap: 0.5rem;
+}
+.btn:hover { background: var(--primary-hover); }
+.btn i { transition: transform 0.2s; }
+.btn:hover i { transform: translateX(5px); }
+
+/* --- MODAL --- */
+.modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    display: none; align-items: center; justify-content: center; z-index: 2000;
+    opacity: 0; transition: opacity 0.3s ease;
+}
+.modal.active { display: flex; opacity: 1; }
+
+.modal-content {
+    background: white; padding: 2.5rem; border-radius: var(--radius);
+    width: 90%; max-width: 500px; position: relative;
+    transform: translateY(20px); transition: transform 0.3s ease;
+}
+.modal.active .modal-content { transform: translateY(0); }
+
+.close-modal {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-gray);
+}
+
+.form-group { margin-bottom: 1.2rem; }
+.form-group label { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; font-weight: 500; }
+.form-group input, .form-group textarea {
+    width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 10px;
+    font-family: inherit; transition: var(--transition);
+}
+.form-group input:focus, .form-group textarea:focus {
+    border-color: var(--primary); outline: none;
+}
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+/* --- TOAST NOTIFICATION --- */
+.toast-container {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 3000;
+    display: flex; flex-direction: column; gap: 1rem;
+}
+.toast {
+    background: white; padding: 1rem 1.5rem; border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    border-left: 5px solid var(--primary);
+    display: flex; align-items: center; gap: 1rem;
+    transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    max-width: 350px;
+}
+.toast.show { transform: translateX(0); }
+.toast-icon { color: var(--primary); font-size: 1.2rem; }
+.toast-title { font-weight: 600; font-size: 1rem; margin-bottom: 2px; }
+.toast-msg { font-size: 0.85rem; color: var(--text-gray); }
+
+/* --- FOOTER --- */
+footer {
+    background: var(--dark); color: white; text-align: center;
+    padding: 3rem; margin-top: 4rem;
+}
+footer p { opacity: 0.7; font-size: 0.9rem; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .navbar { padding: 1rem; }
+    .hamburger { display: block; color: var(--dark); }
+    
+    .nav-menu {
+        position: fixed; top: 70px; right: -100%;
+        width: 80%; max-width: 300px; height: calc(100vh - 70px);
+        background: white; flex-direction: column; align-items: center;
+        padding: 2rem; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        transition: 0.4s ease;
+    }
+    
+    .nav-menu.active { right: 0; }
+    
+    .hero h1 { font-size: 2.5rem; }
+    
+    .search-container { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+    <div class="logo">🐾 Pawsome Pets</div>
+    <div class="hamburger" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-menu">
+        <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+        <li><a href="#about" onclick="toggleMenu()">About</a></li>
+        <li><a href="#videos" onclick="toggleMenu()">Care Videos</a></li>
+        <li><a href="#clinics" onclick="toggleMenu()">Vet Clinics</a></li>
+        <li><a href="#adopt" onclick="toggleMenu()">Adopt Pets</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+    <h1>Care. Love. Adopt.</h1>
+    <p>Your beginner-friendly pet care & adoption guide. Find your new best friend today.</p>
+    <a href="#adopt" class="hero-btn">Find a Friend</a>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+    <h2 class="section-title">About Us</h2>
+    <div class="about-box">
+        <p><strong>Pawsome Pets</strong> is a dedicated platform designed to bridge the gap between homeless animals and loving families.</p>
+        <p style="margin-top: 1rem;">We believe adoption is a lifelong commitment. Every animal featured here deserves love, care, and safety. Our goal is to educate first-time owners and simplify the adoption process.</p>
+    </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos" class="section">
+    <h2 class="section-title">Care Videos</h2>
+    <div class="video-grid">
+
+        <div class="video-card" onclick="openVideo('https://www.youtube.com/watch?v=peUVLEUj-AM')">
+            <div class="video-thumb" style="background-image: url('https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                <i class="fas fa-play-circle play-icon"></i>
+            </div>
+            <div class="video-content">
+                <h3>Puppy Care Basics</h3>
+                <p>Essential feeding, sleeping, and training tips for your new puppy.</p>
+            </div>
+        </div>
+
+        <div class="video-card" onclick="openVideo('https://www.youtube.com/watch?v=XLFpfWGnO9Y')">
+            <div class="video-thumb" style="background-image: url('https://images.unsplash.com/photo-1513245543132-31f507417b26?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                <i class="fas fa-play-circle play-icon"></i>
+            </div>
+            <div class="video-content">
+                <h3>Cat Care 101</h3>
+                <p>Understanding litter habits and nutrition for a happy cat.</p>
+            </div>
+        </div>
+
+        <div class="video-card" onclick="openVideo('https://www.youtube.com/watch?v=n3OwgFrZ4zY')">
+            <div class="video-thumb" style="background-image: url('An-Aquarium.webp');">
+                <i class="fas fa-play-circle play-icon"></i>
+            </div>
+            <div class="video-content">
+                <h3>Aquarium Setup</h3>
+                <p>Creating the perfect environment for your fish friends.</p>
+            </div>
+        </div>
+
+        <div class="video-card" onclick="openVideo('https://www.youtube.com/watch?v=Z2A3K4p9FZk')">
+            <div class="video-thumb" style="background-image: url('rabbitfeatured.jpg');">
+                <i class="fas fa-play-circle play-icon"></i>
+            </div>
+            <div class="video-content">
+                <h3>Rabbit Care Guide</h3>
+                <p>Housing, diet, and handling tips for bunnies.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- CLINICS -->
+<section id="clinics" class="section">
+    <h2 class="section-title">Vet Clinics</h2>
+    <div class="clinic-grid">
+
+        <div class="clinic-card">
+            <h3><i class="fas fa-stethoscope" style="color:var(--primary)"></i> City Pet Clinic</h3>
+            <p>General checkups, vaccination, and dental care.</p>
+            <div class="clinic-links">
+                <a href="tel:+911234567890" class="call"><i class="fas fa-phone"></i> Call</a>
+                <a href="tel:108" class="emergency"><i class="fas fa-ambulance"></i> Emergency</a>
+            </div>
+        </div>
+
+        <div class="clinic-card">
+            <h3><i class="fas fa-paw" style="color:var(--primary)"></i> Happy Tails Vet</h3>
+            <p>24×7 emergency support and surgical specialists.</p>
+            <div class="clinic-links">
+                <a href="tel:+919876543210" class="call"><i class="fas fa-phone"></i> Call</a>
+                <a href="tel:108" class="emergency"><i class="fas fa-ambulance"></i> Emergency</a>
+            </div>
+        </div>
+
+        <div class="clinic-card">
+            <h3><i class="fas fa-heartbeat" style="color:var(--primary)"></i> Paws Health Center</h3>
+            <p>Specialized care for exotic pets and rehabilitation.</p>
+            <div class="clinic-links">
+                <a href="tel:+919999999999" class="call"><i class="fas fa-phone"></i> Call</a>
+                <a href="tel:108" class="emergency"><i class="fas fa-ambulance"></i> Emergency</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ADOPT -->
+<section id="adopt" class="section">
+    <h2 class="section-title">Adopt Pets</h2>
+    
+    <!-- Search Filter -->
+    <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="petSearch" class="search-input" placeholder="Search by name (e.g., Bruno) or type (Dog, Cat)...">
+    </div>
+
+    <div class="adoption-grid">
+
+        <!-- Dogs -->
+        <div class="pet-card" data-name="Bruno Labrador Dog">
+            <div class="pet-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=500&q=80" alt="Bruno">
+            </div>
+            <div class="pet-info">
+                <span class="pet-badge">🐶 Dog</span>
+                <h4>Bruno – Labrador</h4>
+                <p>3 years old • Friendly & Energetic</p>
+                <button class="btn" onclick="openAdopt('Bruno')">Adopt Me <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="pet-card" data-name="Bella Beagle Dog">
+            <div class="pet-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=500&q=80" alt="Bella">
+            </div>
+            <div class="pet-info">
+                <span class="pet-badge">🐶 Dog</span>
+                <h4>Bella – Beagle</h4>
+                <p>2 years old • Great with kids</p>
+                <button class="btn" onclick="openAdopt('Bella')">Adopt Me <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Cats -->
+        <div class="pet-card" data-name="Misty Persian Cat">
+            <div class="pet-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=500&q=80" alt="Misty">
+            </div>
+            <div class="pet-info">
+                <span class="pet-badge">🐱 Cat</span>
+                <h4>Misty – Persian</h4>
+                <p>1 year old • Calm & Fluffy</p>
+                <button class="btn" onclick="openAdopt('Misty')">Adopt Me <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="pet-card" data-name="Simba Orange Cat">
+            <div class="pet-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=500&q=80" alt="Simba">
+            </div>
+            <div class="pet-info">
+                <span class="pet-badge">🐱 Cat</span>
+                <h4>Simba – Orange Tabby</h4>
+                <p>8 months old • Playful</p>
+                <button class="btn" onclick="openAdopt('Simba')">Adopt Me <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Fish -->
+        <div class="pet-card" data-name="Goldfish Fish">
+            <div class="pet-img-wrapper">
+                <img src="goldie" alt="Goldfish">
+            </div>
+            <div class="pet-info">
+                <span class="pet-badge">🐠 Fish</span>
+                <h4>Goldie</h4>
+                <p>1 year old • Easy care</p>
+                <button class="btn" onclick="openAdopt('Goldie')">Adopt Me <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="pet-card" data-name="Betta Fish Fish">
+            <div class="pet-img-wrapper">
+                <img src="beta fish" alt="Betta Fish">
+            </div>
+            <div class="pet-info">
+                <span class="pet-badge">🐠 Fish</span>
+                <h4>Beta – Betta</h4>
+                <p>6 months old • Colorful</p>
+                <button class="btn" onclick="openAdopt('Beta')">Adopt Me <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- Rabbit -->
+        <div class="pet-card" data-name="Snowy Rabbit">
+            <div class="pet-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&w=500&q=80" alt="Snowy">
+            </div>
+            <div class="pet-info">
+                <span class="pet-badge">🐰 Rabbit</span>
+                <h4>Snowy</h4>
+                <p>2 years old • Very quiet</p>
+                <button class="btn" onclick="openAdopt('Snowy')">Adopt Me <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="pet-card" data-name="Coco Rabbit">
+            <div class="pet-img-wrapper">
+                <img src="rabbitfeatured.jpg" alt="Coco">
+            </div>
+            <div class="pet-info">
+                <span class="pet-badge">🐰 Rabbit</span>
+                <h4>Coco</h4>
+                <p>1.5 years old • Loves carrots</p>
+                <button class="btn" onclick="openAdopt('Coco')">Adopt Me <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="adoptModal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        <h3 style="margin-bottom:1.5rem; color:var(--primary)">Adopt <span id="modalPetName"></span></h3>
+        <form id="adoptForm" onsubmit="handleAdoption(event)">
+            <div class="form-group">
+                <label>Your Full Name</label>
+                <input type="text" id="ownerName" required placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="ownerEmail" required placeholder="john@example.com">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="ownerPhone" required placeholder="+123 456 7890">
+            </div>
+            <div class="form-group">
+                <label>Why do you want to adopt?</label>
+                <textarea id="ownerReason" required placeholder="Tell us about your home environment..."></textarea>
+            </div>
+            <button type="submit" class="btn" id="submitBtn">Submit Application</button>
+        </form>
+    </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<footer>
+    <p>&copy; 2025 Pawsome Pets. All rights reserved.</p>
+    <p style="margin-top:0.5rem; font-size:0.8rem">Made with ❤️ for animals</p>
+</footer>
+
+<script>
+    // --- MOBILE MENU ---
+    function toggleMenu() {
+        const menu = document.querySelector('.nav-menu');
+        const hamburger = document.querySelector('.hamburger i');
+        menu.classList.toggle('active');
+        
+        // Toggle icon
+        if(menu.classList.contains('active')){
+            hamburger.classList.remove('fa-bars');
+            hamburger.classList.add('fa-times');
+        } else {
+            hamburger.classList.remove('fa-times');
+            hamburger.classList.add('fa-bars');
+        }
+    }
+
+    // --- VIDEO ---
+    function openVideo(url) {
+        window.open(url, '_blank');
+    }
+
+    // --- SEARCH / FILTER ---
+    const searchInput = document.getElementById('petSearch');
+    const petCards = document.querySelectorAll('.pet-card');
+
+    searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        
+        petCards.forEach(card => {
+            const data = card.getAttribute('data-name').toLowerCase();
+            if(data.includes(term)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+
+    // --- MODAL LOGIC ---
+    const modal = document.getElementById('adoptModal');
+    const petNameSpan = document.getElementById('modalPetName');
+    const adoptForm = document.getElementById('adoptForm');
+    let currentPet = "";
+
+    function openAdopt(name) {
+        currentPet = name;
+        petNameSpan.innerText = name;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+        adoptForm.reset();
+    }
+
+    // Close modal if clicking outside content
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    // --- FORM HANDLING & TOAST ---
+    function handleAdoption(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('submitBtn');
+        const originalText = btn.innerText;
+        
+        // Simulate loading
+        btn.innerText = "Sending...";
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
+
+        setTimeout(() => {
+            // Success logic
+            closeModal();
+            showToast('Success!', `Your application for ${currentPet} has been sent.`);
+            
+            // Reset button
+            btn.innerText = originalText;
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        }, 1500);
+    }
+
+    function showToast(title, message) {
+        const container = document.getElementById('toastContainer');
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `
+            <i class="fas fa-check-circle toast-icon"></i>
+            <div>
+                <div class="toast-title">${title}</div>
+                <div class="toast-msg">${message}</div>
+            </div>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Trigger animation
+        setTimeout(() => toast.classList.add('show'), 100);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400); // Wait for slide out
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>
